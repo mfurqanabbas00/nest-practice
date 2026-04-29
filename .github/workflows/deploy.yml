@@ -20,14 +20,12 @@ jobs:
 
       - name: Login ECR
       - uses: aws-actions/amazon-ecr-login@v2
-      
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Deploy application
-        env: 
-          MY_KEY=randomkey
 
+      - name: Build Docker Image
+      - run: docker build -t nest-practice .
 
+      - name: Tag Docker Image for ECR
+      - run: docker tag nest-practice:latest ${{ secrets.ECR_URI }}/nest-practice:v1.0.0
+
+      - name: Push Docker Image to ECR
+      - run: docker push ${{ secrets.ECR_URI }}/nest-practice:1.0.0
