@@ -18,7 +18,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     TypeOrmModule.forRoot({
       type: 'postgres',
       database: 'practice',
-      host: 'localhost',
+      host: 'host.docker.internal',
+      url: process.env.DATABASE_URL,
       entities: [User],
       synchronize: true,
     }),
