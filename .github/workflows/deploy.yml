@@ -1,0 +1,26 @@
+name: Project Deployment
+
+on: 
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build docker_compose
+        run: docker compose up -d --build
+      - name: Build application
+        run: docker-compose exec -T service yarn build
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy application
+        env: 
+          MY_KEY=randomkey
+
+
